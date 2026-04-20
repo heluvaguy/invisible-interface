@@ -1,0 +1,24 @@
+---
+// No props — content comes through the slot
+---
+<blockquote class="pull-quote">
+  <slot />
+</blockquote>
+
+<style>
+  .pull-quote {
+    border-left: 2.5px solid var(--terra-400);
+    padding: var(--sp-2) 0 var(--sp-2) var(--sp-6);
+    margin: var(--sp-8) 0;
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--ink-700);
+    quotes: none;
+  }
+
+  .pull-quote :global(p) {
+    margin: 0;
+  }
+</style>

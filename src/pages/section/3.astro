@@ -1,0 +1,127 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import PullQuote from '../../components/PullQuote.astro';
+import Annotation from '../../components/Annotation.astro';
+import Sample from '../../components/Sample.astro';
+---
+<Base title="Restraint Is Active Work" section={3}>
+  <article class="prose">
+
+    <SectionHeader
+      n={3}
+      title="Restraint Is Active Work"
+      meta="~600 words · 1 interactive sample"
+    />
+
+    <p>
+      The hardest design review conversation isn't "should we add this?" It's
+      "should we remove this?" Adding features has a clear story: user asked
+      for it, we built it, done. Removing a feature requires arguing that
+      absence is better than presence — which means arguing that users are
+      wrong about what they want, which is an uncomfortable position to
+      defend in a room full of stakeholders.
+    </p>
+
+    <p>
+      And yet. The interfaces that age best — the ones people describe as
+      timeless, as calm, as trustworthy — are almost universally the ones
+      where something was taken away. Not because minimalism is a style, but
+      because every persistent visual element is a small, continuous tax
+      levied against the reader's focus. The tax is real even when the element
+      is invisible. The brain processes the page, finds nothing to act on,
+      and returns to the task. That return costs something.
+    </p>
+
+    <PullQuote>
+      Minimalism isn't the absence of decisions — it's the hardest kind.
+      The work is invisible precisely because so much effort went into
+      removing things.
+    </PullQuote>
+
+    <h2>Controls that earn their appearance</h2>
+
+    <p>
+      The principle isn't "never show controls." It's "show controls when
+      they're genuinely relevant, and not before." The specific mechanism
+      is hover-reveal with a gentle fade: controls live at zero opacity,
+      and transition to full opacity when the user demonstrates intent
+      by hovering over the content they apply to.
+    </p>
+
+    <p>
+      This pattern works because it collapses the temporal gap between
+      "I might want this control" and "I can see this control." Controls
+      that are always visible optimize for the second case while creating
+      constant overhead for the first. Controls that appear on hover serve
+      both cases while keeping the resting state clean.
+    </p>
+
+    <Sample label="Interactive sample — hover to reveal controls">
+      <div style="font-family: 'Lora', Georgia, serif;">
+        <div style="font-size: 12px; font-family: system-ui, sans-serif; color: #a08060; margin-bottom: 16px; letter-spacing: 0.03em;">
+          Hover over the response block below.
+        </div>
+
+        <div
+          style="background: #f7f0e6; border-radius: 8px; padding: 16px 20px; position: relative; cursor: default;"
+          onmouseenter="this.querySelector('.s3-controls').style.opacity='1'"
+          onmouseleave="this.querySelector('.s3-controls').style.opacity='0'"
+        >
+          <p style="font-size: 16px; line-height: 1.8; color: #4a3728; margin: 0;">
+            The interface that earns its invisibility leaves no seam between
+            intention and execution. You think the thought — and it's already there.
+          </p>
+
+          <!-- Hidden controls -->
+          <div
+            class="s3-controls"
+            style="
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              display: flex;
+              gap: 6px;
+              opacity: 0;
+              transition: opacity 120ms cubic-bezier(.4,0,.2,1);
+            "
+          >
+            <button style="background: #fdf8f2; border: 0.5px solid #e4d9cc; border-radius: 6px; padding: 5px 10px; font-size: 11px; font-family: system-ui, sans-serif; color: #7a5535; cursor: pointer; letter-spacing: 0.04em;">Copy</button>
+            <button style="background: #fdf8f2; border: 0.5px solid #e4d9cc; border-radius: 6px; padding: 5px 10px; font-size: 11px; font-family: system-ui, sans-serif; color: #7a5535; cursor: pointer; letter-spacing: 0.04em;">↻ Retry</button>
+            <button style="background: #fdf8f2; border: 0.5px solid #e4d9cc; border-radius: 6px; padding: 5px 10px; font-size: 11px; font-family: system-ui, sans-serif; color: #7a5535; cursor: pointer; letter-spacing: 0.04em;">✕</button>
+          </div>
+        </div>
+
+        <div style="margin-top: 10px; font-size: 11px; font-family: system-ui, sans-serif; color: #c8ad94; letter-spacing: 0.05em; text-transform: uppercase;">
+          Controls at rest: 0 visible elements competing for attention
+        </div>
+      </div>
+    </Sample>
+
+    <p>
+      The key implementation detail: the transition duration is
+      <code>--dur-fast: 120ms</code> — fast enough that the appearance feels
+      responsive rather than delayed, slow enough that it doesn't feel like a
+      flash. The reveal is barely perceivable as an animation. It's just
+      <em>there</em>, in a way that feels inevitable rather than triggered.
+    </p>
+
+    <Annotation label="The real cost">
+      Hover-reveal has a drawback on touch devices where hover states don't
+      exist. On mobile, these controls need a different trigger — typically
+      a tap on the content block. This is not a reason to abandon the pattern.
+      It's a reason to design two interaction modes instead of one, and
+      to accept that the desktop experience can be cleaner because the
+      interaction vocabulary is richer.
+    </Annotation>
+
+    <p>
+      Restraint isn't a feeling. It's a practice that requires constant
+      re-application. Features accrete. Reasonable additions compound into
+      unreasonable density. The work of keeping an interface clean is active,
+      never finished, and mostly invisible to everyone but the people doing it.
+      That invisibility is the point.
+    </p>
+
+  </article>
+</Base>

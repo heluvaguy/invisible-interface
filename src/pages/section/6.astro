@@ -1,0 +1,223 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import PullQuote from '../../components/PullQuote.astro';
+import Annotation from '../../components/Annotation.astro';
+import Sample from '../../components/Sample.astro';
+---
+<Base title="Behavioral Empathy" section={6}>
+  <article class="prose">
+
+    <SectionHeader
+      n={6}
+      title="Behavioral Empathy"
+      meta="~600 words · 2 interactive samples"
+    />
+
+    <p>
+      There is a class of design decisions that don't appear in any style guide
+      because they aren't visual. They're behavioral. They live in how the
+      interface responds to the user's actions — not just to explicit gestures
+      like clicking a button, but to implicit ones like scrolling up mid-stream,
+      or typing a second sentence into the input box. These decisions are the
+      subtlest and, cumulatively, the most keenly felt.
+    </p>
+
+    <p>
+      Behavioral empathy is the practice of designing those responses with the
+      same intentionality you bring to color and type. It means asking, for
+      every piece of dynamic behavior: what is the user trying to signal here,
+      and is the interface interpreting that signal correctly?
+    </p>
+
+    <PullQuote>
+      These aren't features. They're the interface paying attention.
+    </PullQuote>
+
+    <h2>Auto-scroll that knows when to stop</h2>
+
+    <p>
+      During text generation, auto-scrolling keeps the latest output visible
+      without the user needing to chase it manually. This is the right default.
+      But the moment a user scrolls up — to re-read something, to check an
+      earlier claim, to copy a specific line — the auto-scroll must stop
+      immediately and completely.
+    </p>
+
+    <p>
+      Failing to do this is one of the most common and most frustrating
+      behavioral errors in streaming UIs. The user scrolls up with intent.
+      The interface drags them back down. The implicit message: <em>your
+      actions don't matter here.</em> This is not a minor UX complaint.
+      It's a trust failure.
+    </p>
+
+    <Sample label="Interactive sample — auto-scroll with intent detection">
+      <div style="font-family: system-ui, sans-serif; font-size: 13px; color: #4a3728;">
+
+        <div style="display: flex; gap: 8px; margin-bottom: 12px; align-items: center;">
+          <button id="s6-scroll-btn" onclick="s6StartScroll()" style="font-family: system-ui, sans-serif; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; background: #fdf3e8; border: 0.5px solid #e8c9a0; color: #8b6345; border-radius: 6px; padding: 5px 12px; cursor: pointer;">▶ Start stream</button>
+          <span id="s6-scroll-status" style="font-size: 12px; color: #a08060;">Auto-scroll: on</span>
+        </div>
+
+        <div
+          id="s6-scroll-box"
+          style="height: 140px; overflow-y: auto; background: #f7f0e6; border-radius: 8px; border: 0.5px solid #e4d9cc; padding: 12px 16px; font-family: 'Lora', Georgia, serif; font-size: 15px; line-height: 1.8; color: #4a3728; scroll-behavior: smooth;"
+        >
+          <div id="s6-scroll-content" style="display: flex; flex-direction: column; gap: 6px;"></div>
+        </div>
+
+        <div style="margin-top: 8px; font-size: 11px; color: #a08060; letter-spacing: 0.04em; text-transform: uppercase;">
+          Scroll up during generation to pause auto-scroll. Scroll back to bottom to resume.
+        </div>
+      </div>
+      <script>
+        (function() {
+          const lines = [
+            "The interface that pays attention is the one you trust.",
+            "Trust is built through a thousand small demonstrations of intent.",
+            "Auto-scroll keeps the latest thought visible without friction.",
+            "But the moment you scroll up — to re-read, to check, to copy —",
+            "the interface should recognize that intent immediately.",
+            "And stop. Completely. Without fighting you.",
+            "This is what behavioral empathy looks like in practice.",
+            "Not a grand gesture. A quiet act of respect.",
+          ];
+          let scrollInterval = null;
+          let autoScroll = true;
+          let lineIndex = 0;
+
+          function s6StartScroll() {
+            const box = document.getElementById('s6-scroll-box');
+            const content = document.getElementById('s6-scroll-content');
+            const btn = document.getElementById('s6-scroll-btn');
+            const status = document.getElementById('s6-scroll-status');
+            if (!box || !content || !btn) return;
+
+            // Reset
+            content.innerHTML = '';
+            lineIndex = 0;
+            autoScroll = true;
+            btn.disabled = true;
+            btn.textContent = '…';
+            if (status) status.textContent = 'Auto-scroll: on';
+
+            // Detect user scroll intent
+            let userScrolled = false;
+            const handleScroll = () => {
+              const atBottom = box.scrollTop + box.clientHeight >= box.scrollHeight - 8;
+              if (!atBottom) {
+                autoScroll = false;
+                userScrolled = true;
+                if (status) status.textContent = 'Auto-scroll: paused (scrolled up)';
+              } else if (userScrolled) {
+                autoScroll = true;
+                if (status) status.textContent = 'Auto-scroll: resumed';
+              }
+            };
+            box.addEventListener('scroll', handleScroll, { passive: true });
+
+            if (scrollInterval) clearInterval(scrollInterval);
+            scrollInterval = setInterval(() => {
+              if (lineIndex >= lines.length) {
+                clearInterval(scrollInterval);
+                box.removeEventListener('scroll', handleScroll);
+                if (btn) { btn.disabled = false; btn.textContent = '▶ Start stream'; }
+                if (status) status.textContent = 'Stream complete';
+                return;
+              }
+              const p = document.createElement('p');
+              p.textContent = lines[lineIndex];
+              p.style.margin = '0';
+              content.appendChild(p);
+              lineIndex++;
+              if (autoScroll) box.scrollTop = box.scrollHeight;
+            }, 700);
+          }
+          window.s6StartScroll = s6StartScroll;
+        })();
+      </script>
+    </Sample>
+
+    <h2>The input that adapts to you</h2>
+
+    <p>
+      The input box growing as you type is the other canonical example.
+      A fixed-height input with a scrollbar inside it forces the user to
+      compose through a slot. They can't see their own writing. The mental
+      model of the message gets compressed into a horizontal slot that
+      has nothing to do with how thoughts are structured.
+    </p>
+
+    <p>
+      An auto-growing input collapses the difference between composing
+      a question and composing a paragraph. You write. The space expands.
+      The interface adapts to the content rather than the content adapting
+      to the interface.
+    </p>
+
+    <Sample label="Interactive sample — adaptive input height">
+      <div style="font-family: system-ui, sans-serif; font-size: 13px; color: #4a3728;">
+        <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: start;">
+
+          <!-- Fixed input -->
+          <div style="flex: 1;">
+            <div style="font-size: 11px; color: #a08060; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;">Fixed height</div>
+            <div style="background: #f7f0e6; border: 0.5px solid #e4d9cc; border-radius: 8px; padding: 10px 12px; height: 44px; overflow: hidden;">
+              <textarea
+                placeholder="Type here…"
+                style="width: 100%; height: 100%; background: none; border: none; outline: none; resize: none; font-family: 'Lora', Georgia, serif; font-size: 15px; color: #4a3728; line-height: 1.6;"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Growing input -->
+          <div style="flex: 1;">
+            <div style="font-size: 11px; color: #8b6345; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; font-weight: 500;">Adaptive height ✓</div>
+            <div id="s6-grow-wrap" style="background: #fdf3e8; border: 0.5px solid #e8c9a0; border-radius: 8px; padding: 10px 12px;">
+              <textarea
+                id="s6-grow-input"
+                placeholder="Type here…"
+                rows="1"
+                oninput="s6Grow(this)"
+                style="width: 100%; background: none; border: none; outline: none; resize: none; font-family: 'Lora', Georgia, serif; font-size: 15px; color: #4a3728; line-height: 1.6; display: block; overflow: hidden; transition: height 120ms cubic-bezier(.4,0,.2,1);"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size: 11px; color: #c8ad94; letter-spacing: 0.04em; text-transform: uppercase;">
+          The interface adapts to you — not the other way around
+        </div>
+      </div>
+      <script>
+        (function() {
+          function s6Grow(el) {
+            el.style.height = 'auto';
+            el.style.height = el.scrollHeight + 'px';
+          }
+          window.s6Grow = s6Grow;
+        })();
+      </script>
+    </Sample>
+
+    <Annotation label="On loading skeletons">
+      Loading states are behavioral design too. The warm loading skeleton
+      — a pulsing <code>--paper-1</code> placeholder rather than a cold
+      grey shimmer — carries the design language into the most uncertain
+      moment of the interaction. The user is waiting. What they see while
+      waiting is the interface's most honest self-portrait.
+    </Annotation>
+
+    <p>
+      None of these behaviors is technically difficult. Detecting a scroll
+      event, resizing a textarea, choosing a warm shimmer over a grey one —
+      each takes an afternoon. What takes longer is the decision to care about
+      them at all. Behavioral empathy isn't a feature you add at the end. It's
+      a disposition you maintain throughout, asking at every turn: what is this
+      person actually trying to do right now, and is the interface helping or
+      getting in the way?
+    </p>
+
+  </article>
+</Base>

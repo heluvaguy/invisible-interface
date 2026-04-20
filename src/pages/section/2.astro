@@ -1,0 +1,173 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import PullQuote from '../../components/PullQuote.astro';
+import Annotation from '../../components/Annotation.astro';
+import Sample from '../../components/Sample.astro';
+---
+<Base title="Time Is A Design Material" section={2}>
+  <article class="prose">
+
+    <SectionHeader
+      n={2}
+      title="Time Is A Design Material"
+      meta="~600 words · 2 interactive samples"
+    />
+
+    <p>
+      When a language model generates text, it doesn't think, then speak.
+      It produces tokens sequentially, one at a time, at a rate determined
+      by the hardware running it. Streaming that output to the user — word
+      by word as it's produced — is technically straightforward. What's
+      interesting is that it's also the right design choice, for reasons
+      that have nothing to do with latency.
+    </p>
+
+    <p>
+      A response that arrives all at once, fully formed, feels like it was
+      retrieved from a database rather than reasoned through. The instant
+      appearance of five paragraphs triggers a "this was cached" instinct,
+      even when it wasn't. Streaming text, by contrast, mimics the visible
+      rhythm of thinking-as-writing. You watch ideas arrive. The experience
+      is closer to receiving a letter than reading a Wikipedia page.
+    </p>
+
+    <PullQuote>
+      Streaming text isn't a technical limitation — it's a design choice
+      that mimics thinking-as-writing. An instant dump would feel cheaper
+      even if it were faster.
+    </PullQuote>
+
+    <Sample label="Interactive sample — streaming cadence">
+      <div style="font-family: 'Lora', Georgia, serif;">
+        <div id="s2-stream-output" style="font-size: 16px; line-height: 1.85; color: #4a3728; min-height: 72px; margin-bottom: 16px;"></div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button
+            id="s2-play-btn"
+            onclick="s2StartStream()"
+            style="font-family: system-ui, sans-serif; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; background: #fdf3e8; border: 0.5px solid #e8c9a0; color: #8b6345; border-radius: 6px; padding: 6px 14px; cursor: pointer; transition: background 120ms;"
+          >▶ Play</button>
+          <span id="s2-speed-label" style="font-family: system-ui, sans-serif; font-size: 12px; color: #a08060;">40ms / token</span>
+          <input
+            id="s2-speed"
+            type="range"
+            min="10"
+            max="120"
+            value="40"
+            oninput="document.getElementById('s2-speed-label').textContent = this.value + 'ms / token'"
+            style="accent-color: #c9956a; flex: 1; max-width: 120px;"
+          />
+        </div>
+      </div>
+      <script>
+        (function() {
+          const text = "The interface that earns its invisibility leaves no seam between intention and execution. You think the thought, and the thought is already on the page.";
+          function s2StartStream() {
+            const out = document.getElementById('s2-stream-output');
+            const btn = document.getElementById('s2-play-btn');
+            const speed = document.getElementById('s2-speed');
+            if (!out || !btn || !speed) return;
+            out.textContent = '';
+            btn.disabled = true;
+            btn.textContent = '…';
+            let i = 0;
+            const delay = parseInt(speed.value, 10);
+            const iv = setInterval(() => {
+              out.textContent += text[i];
+              i++;
+              if (i >= text.length) {
+                clearInterval(iv);
+                btn.disabled = false;
+                btn.textContent = '▶ Play';
+              }
+            }, delay);
+          }
+          window.s2StartStream = s2StartStream;
+        })();
+      </script>
+    </Sample>
+
+    <h2>Duration as design token</h2>
+
+    <p>
+      If streaming makes time visible, easing curves make time <em>feel</em> intentional.
+      The difference between a UI that feels mechanical and one that feels alive
+      is almost always in the transition curves — not the transitions themselves.
+      A 240ms fade with a linear curve feels like a toggle. The same 240ms with
+      <code>cubic-bezier(.4, 0, .2, 1)</code> feels like breathing.
+    </p>
+
+    <p>
+      This matters enough to encode in design tokens. When easing lives in a
+      CSS variable, it's a named decision, not a number someone typed once and
+      never revisited. <code>--ease-soft</code> communicates intent.
+      <code>cubic-bezier(.4, 0, .2, 1)</code> communicates nothing.
+    </p>
+
+    <Annotation label="Duration tokens">
+      Duration tokens for this system: <code>--dur-fast: 120ms</code> for
+      micro-interactions (hover reveals, button presses);
+      <code>--dur-base: 240ms</code> for state transitions;
+      <code>--dur-slow: 480ms</code> for page enters and large reveals;
+      <code>--dur-crawl: 800ms</code> for the streaming cadence demo above.
+    </Annotation>
+
+    <Sample label="Interactive sample — ease comparison">
+      <div style="font-family: system-ui, sans-serif; font-size: 13px; color: #4a3728;">
+        <div style="margin-bottom: 16px; color: #a08060; font-size: 12px; letter-spacing: 0.04em;">Click a row to animate. Same duration — different feel.</div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <!-- Linear -->
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <div style="width: 80px; font-size: 11px; color: #a08060; text-align: right; font-family: 'JetBrains Mono', monospace;">linear</div>
+            <div style="flex: 1; height: 36px; background: #f7f0e6; border-radius: 6px; position: relative; cursor: pointer; overflow: hidden;" onclick="s2Animate(this, 'linear')">
+              <div style="position:absolute; top: 6px; left: 6px; width: 24px; height: 24px; background: #c9956a; border-radius: 4px; transition: transform 600ms linear;" class="s2-ball"></div>
+            </div>
+          </div>
+
+          <!-- ease (browser default) -->
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <div style="width: 80px; font-size: 11px; color: #a08060; text-align: right; font-family: 'JetBrains Mono', monospace;">ease</div>
+            <div style="flex: 1; height: 36px; background: #f7f0e6; border-radius: 6px; position: relative; cursor: pointer; overflow: hidden;" onclick="s2Animate(this, 'ease')">
+              <div style="position:absolute; top: 6px; left: 6px; width: 24px; height: 24px; background: #c9956a; border-radius: 4px; transition: transform 600ms ease;" class="s2-ball"></div>
+            </div>
+          </div>
+
+          <!-- ease-soft (our token) -->
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <div style="width: 80px; font-size: 11px; color: #8b6345; text-align: right; font-weight: 500; font-family: 'JetBrains Mono', monospace;">--ease-soft</div>
+            <div style="flex: 1; height: 36px; background: #fdf3e8; border: 0.5px solid #e8c9a0; border-radius: 6px; position: relative; cursor: pointer; overflow: hidden;" onclick="s2Animate(this, 'cubic-bezier(.4,0,.2,1)')">
+              <div style="position:absolute; top: 6px; left: 6px; width: 24px; height: 24px; background: #b07d5c; border-radius: 4px; transition: transform 600ms cubic-bezier(.4,0,.2,1);" class="s2-ball"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function() {
+          function s2Animate(track, ease) {
+            const ball = track.querySelector('.s2-ball');
+            if (!ball) return;
+            const trackW = track.offsetWidth;
+            const ballW = 24;
+            const maxX = trackW - ballW - 12;
+            const isRight = ball.style.transform === '' || ball.style.transform === 'translateX(0px)' || !ball.style.transform;
+            ball.style.transition = `transform 600ms ${ease}`;
+            ball.style.transform = isRight ? `translateX(${maxX}px)` : 'translateX(0px)';
+          }
+          window.s2Animate = s2Animate;
+        })();
+      </script>
+    </Sample>
+
+    <p>
+      The third row doesn't look radically different from the second. But run
+      them side by side enough times and a preference emerges — not as an
+      aesthetic opinion, but as a physiological response. The soft ease matches
+      the deceleration curve of physical objects. The browser's default
+      <code>ease</code> does not. Over thousands of micro-interactions, this
+      accumulates into the difference between a UI that feels mechanical and one
+      that feels inhabited.
+    </p>
+
+  </article>
+</Base>

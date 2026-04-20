@@ -1,0 +1,113 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  section?: number;
+  description?: string;
+}
+
+const { title, section, description = 'A design philosophy for AI interfaces that disappear.' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const totalSections = 7;
+
+// Build pip state array: done / active / pending
+const pipStates = Array.from({ length: totalSections }, (_, i) => {
+  const n = i + 1;
+  if (!section) return 'pending';
+  if (n < section) return 'done';
+  if (n === section) return 'active';
+  return 'pending';
+});
+
+// Prev / next
+const prevSection = section && section > 1 ? section - 1 : null;
+const nextSection = section && section < totalSections ? section + 1 : null;
+
+const sectionTitles: Record<number, string> = {
+  1: 'The Problem With Most AI UIs',
+  2: 'Time Is A Design Material',
+  3: 'Restraint Is Active Work',
+  4: 'Warmth Is A Technical Decision',
+  5: 'The Hierarchy of Presence',
+  6: 'Behavioral Empathy',
+  7: 'A Note On Precedent',
+};
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{section ? `§${section} — ${title}` : title} · The Invisible Interface</title>
+  <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+</head>
+<body>
+
+  <!-- Reading progress bar -->
+  <div id="reading-progress" role="progressbar" aria-label="Reading progress"></div>
+
+  <!-- Sticky header -->
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href={base} class="site-wordmark">The Invisible Interface</a>
+      <nav class="chapter-pips" aria-label="Chapter navigation">
+        {pipStates.map((state, i) => (
+          <a
+            href={`${base}section/${i + 1}`}
+            class="pip"
+            data-state={state}
+            aria-label={`Section ${i + 1}: ${sectionTitles[i + 1]}`}
+            title={sectionTitles[i + 1]}
+          ></a>
+        ))}
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main reading column -->
+  <main class="reading-col" id="main-content">
+    <slot />
+
+    <!-- Section prev / next -->
+    {section && (
+      <nav class="section-nav" aria-label="Section navigation">
+        {prevSection
+          ? <a href={`${base}section/${prevSection}`}>← {sectionTitles[prevSection]}</a>
+          : <span class="spacer"></span>
+        }
+        {nextSection
+          ? <a href={`${base}section/${nextSection}`}>{sectionTitles[nextSection]} →</a>
+          : <a href={base}>Back to start →</a>
+        }
+      </nav>
+    )}
+  </main>
+
+</body>
+</html>
+
+<style>
+  main {
+    padding-top: var(--sp-12);
+    padding-bottom: var(--sp-24);
+    min-height: 100vh;
+  }
+</style>
+
+<script>
+  // Reading progress bar
+  const bar = document.getElementById('reading-progress');
+  if (bar) {
+    const update = () => {
+      const doc = document.documentElement;
+      const scrolled = doc.scrollTop || document.body.scrollTop;
+      const total = doc.scrollHeight - doc.clientHeight;
+      const pct = total > 0 ? (scrolled / total) * 100 : 0;
+      bar.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>

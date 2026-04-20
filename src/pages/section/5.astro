@@ -1,0 +1,137 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import PullQuote from '../../components/PullQuote.astro';
+import Annotation from '../../components/Annotation.astro';
+import Sample from '../../components/Sample.astro';
+---
+<Base title="The Hierarchy of Presence" section={5}>
+  <article class="prose">
+
+    <SectionHeader
+      n={5}
+      title="The Hierarchy of Presence"
+      meta="~400 words · 1 interactive sample"
+    />
+
+    <p>
+      A layout is an argument. Every width choice, every margin, every
+      alignment decision is a claim about what matters and by how much.
+      In a conversational interface, three things need to coexist: the
+      place where you write, the place where you read, and the chrome
+      that connects them. How these three things relate to each other
+      determines the character of the entire experience.
+    </p>
+
+    <p>
+      Generous inputs are psychologically important. A small input field
+      signals "brief answers expected." A taller, full-width field with
+      soft padding signals "take your time, say what you mean." The field
+      doesn't need to be enormous — it needs to feel welcoming. That's a
+      quality achieved by proportionality and whitespace, not raw size.
+    </p>
+
+    <PullQuote>
+      The input box is generous — it signals "you are welcome to say a lot
+      here." The response column is constrained — it signals "this is for
+      reading, not scanning." Controls recede. Content leads.
+    </PullQuote>
+
+    <p>
+      The response column constraint is the more counterintuitive choice.
+      Making the reading area narrower feels like removing real estate.
+      In practice, it increases reading speed and comprehension. Line lengths
+      above 75 characters force more lateral eye movement, which increases
+      the cognitive effort required to track lines. The 640px constraint
+      produces roughly 65–70 characters per line at body size — inside the
+      optimal range.
+    </p>
+
+    <Sample label="Interactive sample — annotated layout diagram">
+      <div style="font-family: system-ui, sans-serif; font-size: 12px;">
+
+        <!-- Layout mockup -->
+        <div style="background: #fdf8f2; border-radius: 8px; border: 0.5px solid #e4d9cc; padding: 16px; position: relative; overflow: hidden;">
+
+          <!-- Header bar -->
+          <div style="height: 28px; background: #f7f0e6; border-radius: 5px; margin-bottom: 12px; border: 0.5px solid #e4d9cc; display: flex; align-items: center; padding: 0 10px; gap: 6px;">
+            <div style="font-size: 10px; color: #a08060; flex: 1;">wordmark</div>
+            <div style="display: flex; gap: 4px;">
+              <div style="width: 16px; height: 3px; background: #c9956a; border-radius: 2px;"></div>
+              <div style="width: 16px; height: 3px; background: #c9956a; border-radius: 2px;"></div>
+              <div style="width: 16px; height: 3px; background: #e8c9a0; border-radius: 2px;"></div>
+              <div style="width: 16px; height: 3px; background: #f0e6d8; border-radius: 2px;"></div>
+              <div style="width: 16px; height: 3px; background: #f0e6d8; border-radius: 2px;"></div>
+            </div>
+          </div>
+
+          <!-- Content column (reading area) -->
+          <div style="max-width: 280px; margin: 0 auto; position: relative;">
+            <!-- Annotation callout left -->
+            <div style="position: absolute; left: -110px; top: 8px; width: 96px; text-align: right;">
+              <div style="font-size: 10px; color: #b07d5c; line-height: 1.4;">max-width<br/>640px</div>
+              <div style="height: 1px; background: #e8c9a0; margin-top: 4px;"></div>
+            </div>
+
+            <!-- Section number -->
+            <div style="font-family: 'Lora', Georgia, serif; font-size: 32px; color: #c8ad94; line-height: 1; margin-bottom: 4px;">01</div>
+            <!-- Title -->
+            <div style="font-family: 'Lora', Georgia, serif; font-size: 16px; color: #2d1f0e; margin-bottom: 8px;">Section Title</div>
+            <!-- Body lines -->
+            <div style="height: 8px; background: #e4d9cc; border-radius: 2px; margin-bottom: 4px;"></div>
+            <div style="height: 8px; background: #e4d9cc; border-radius: 2px; margin-bottom: 4px; width: 92%;"></div>
+            <div style="height: 8px; background: #e4d9cc; border-radius: 2px; margin-bottom: 4px;"></div>
+            <div style="height: 8px; background: #e4d9cc; border-radius: 2px; margin-bottom: 4px; width: 80%;"></div>
+            <div style="height: 8px; background: #e4d9cc; border-radius: 2px; margin-bottom: 12px; width: 65%;"></div>
+
+            <!-- Pull quote -->
+            <div style="border-left: 2px solid #b07d5c; padding-left: 10px; margin-bottom: 12px;">
+              <div style="height: 7px; background: #d4b896; border-radius: 2px; margin-bottom: 3px; width: 90%;"></div>
+              <div style="height: 7px; background: #d4b896; border-radius: 2px; width: 75%;"></div>
+            </div>
+
+            <!-- More body -->
+            <div style="height: 8px; background: #e4d9cc; border-radius: 2px; margin-bottom: 4px;"></div>
+            <div style="height: 8px; background: #e4d9cc; border-radius: 2px; margin-bottom: 4px; width: 88%;"></div>
+
+            <!-- Annotation callout right -->
+            <div style="position: absolute; right: -116px; top: 120px; width: 100px; text-align: left;">
+              <div style="height: 1px; background: #e8c9a0; margin-bottom: 4px;"></div>
+              <div style="font-size: 10px; color: #b07d5c; line-height: 1.4;">serif for content<br/>sans for chrome</div>
+            </div>
+          </div>
+
+          <!-- Input area -->
+          <div style="max-width: 280px; margin: 12px auto 0; background: #f7f0e6; border-radius: 6px; border: 0.5px solid #e4d9cc; padding: 8px 10px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="font-size: 11px; color: #c8ad94; font-style: italic; font-family: 'Lora', Georgia, serif;">Say anything…</div>
+            <div style="width: 20px; height: 20px; background: #c9956a; border-radius: 4px;"></div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 16px; margin-top: 12px; color: #a08060; flex-wrap: wrap;">
+          <span>◆ Reading column: 640px</span>
+          <span>◆ Generous input, constrained output</span>
+          <span>◆ Controls recede</span>
+        </div>
+      </div>
+    </Sample>
+
+    <Annotation label="On whitespace">
+      The margins outside the reading column are not wasted space.
+      They create peripheral emptiness that reduces the brain's tendency
+      to scan. When there's nothing to the left or right, the eye stays
+      on the text. This is why physical books have generous margins even
+      when the economics of paper argue against them.
+    </Annotation>
+
+    <p>
+      The hierarchy of presence is, ultimately, an argument about trust.
+      When the layout signals that reading is the primary activity — through
+      constrained columns, generous spacing, receding chrome — it tells the
+      user: your attention is the most valuable thing here, and we've
+      organized everything around protecting it. That's not a layout choice.
+      It's a promise.
+    </p>
+
+  </article>
+</Base>

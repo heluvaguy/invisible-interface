@@ -1,0 +1,159 @@
+---
+import Base from '../layouts/Base.astro';
+
+const base = import.meta.env.BASE_URL;
+
+const sections = [
+  { n: 1, title: 'The Problem With Most AI UIs',    meta: '~500w' },
+  { n: 2, title: 'Time Is A Design Material',        meta: '~600w · 2 samples' },
+  { n: 3, title: 'Restraint Is Active Work',         meta: '~600w · 1 sample' },
+  { n: 4, title: 'Warmth Is A Technical Decision',  meta: '~500w · 1 sample' },
+  { n: 5, title: 'The Hierarchy of Presence',        meta: '~400w · 1 sample' },
+  { n: 6, title: 'Behavioral Empathy',               meta: '~600w · 2 samples' },
+  { n: 7, title: 'A Note On Precedent',              meta: '~300w + closing' },
+];
+---
+<Base title="The Invisible Interface">
+  <div class="cover">
+
+    <div class="cover-eyebrow label-caps">Design Philosophy</div>
+
+    <h1 class="cover-title">The Invisible<br/>Interface</h1>
+
+    <p class="cover-thesis">
+      The best AI interface is the one you forget you're using. Every design
+      decision should be evaluated against one question: does this help the
+      user think, or does it remind them they're using software?
+    </p>
+
+    <div class="cover-divider"></div>
+
+    <nav class="toc" aria-label="Table of contents">
+      <div class="toc-label label-caps">Contents</div>
+      <ol class="toc-list">
+        {sections.map(s => (
+          <li class="toc-item">
+            <a href={`${base}section/${s.n}`} class="toc-link">
+              <span class="toc-num">{String(s.n).padStart(2, '0')}</span>
+              <span class="toc-title">{s.title}</span>
+              <span class="toc-meta">{s.meta}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <a href={`${base}section/1`} class="cover-cta">Begin reading →</a>
+
+  </div>
+</Base>
+
+<style>
+  .cover {
+    padding: var(--sp-16) 0 var(--sp-24);
+  }
+
+  .cover-eyebrow {
+    margin-bottom: var(--sp-4);
+  }
+
+  .cover-title {
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 8vw, 52px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--ink-900);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--sp-6);
+  }
+
+  .cover-thesis {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--ink-500);
+    max-width: 520px;
+    margin-bottom: 0;
+  }
+
+  .cover-divider {
+    border: none;
+    border-top: var(--border-subtle);
+    margin: var(--sp-12) 0;
+  }
+
+  .toc-label {
+    margin-bottom: var(--sp-4);
+  }
+
+  .toc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .toc-item {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .toc-link {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-4);
+    padding: var(--sp-3) var(--sp-4);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background var(--dur-fast) var(--ease-soft);
+  }
+
+  .toc-link:hover {
+    background: var(--paper-1);
+  }
+
+  .toc-num {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    color: var(--ink-100);
+    min-width: 24px;
+    flex-shrink: 0;
+    letter-spacing: 0.05em;
+  }
+
+  .toc-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-sm);
+    color: var(--ink-700);
+    flex: 1;
+    line-height: 1.4;
+    transition: color var(--dur-fast) var(--ease-soft);
+  }
+
+  .toc-link:hover .toc-title {
+    color: var(--terra-600);
+  }
+
+  .toc-meta {
+    font-family: var(--font-sans);
+    font-size: var(--text-caption);
+    color: var(--ink-300);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .cover-cta {
+    display: inline-block;
+    margin-top: var(--sp-12);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--terra-600);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color var(--dur-fast) var(--ease-soft);
+  }
+
+  .cover-cta:hover {
+    color: var(--terra-800);
+  }
+</style>

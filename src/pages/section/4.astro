@@ -1,0 +1,150 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import PullQuote from '../../components/PullQuote.astro';
+import Annotation from '../../components/Annotation.astro';
+import Sample from '../../components/Sample.astro';
+---
+<Base title="Warmth Is A Technical Decision" section={4}>
+  <article class="prose">
+
+    <SectionHeader
+      n={4}
+      title="Warmth Is A Technical Decision"
+      meta="~500 words · 1 interactive sample"
+    />
+
+    <p>
+      The decision to use <code>#fdf8f2</code> instead of <code>#ffffff</code>
+      as a background color is not an aesthetic preference. It is a
+      physiological one, and it has downstream consequences for every other
+      color in the system.
+    </p>
+
+    <p>
+      Pure white at high brightness produces what designers call "halation" —
+      a slight blooming effect around dark text that increases eye strain
+      over long reading sessions. The warm sandy tone of <code>--paper-0</code>
+      reduces this by lowering the contrast ratio slightly and shifting the
+      hue away from the cool end of the spectrum. The result is a background
+      that recedes. The text advances. The reading is easier.
+    </p>
+
+    <PullQuote>
+      The color system was deliberately named "paper" not "background."
+      That word choice is doing architectural work — it establishes warmth
+      as the default, not an override.
+    </PullQuote>
+
+    <p>
+      This matters architecturally because it inverts the usual cascade.
+      Most design systems start with white and add warmth as an exception
+      — a <code>warm-background</code> variant of a default cold surface.
+      This system starts from paper. White, if it appears at all, is the
+      exception. The implication is that every component is warm by default.
+      Warmth doesn't need to be opt-in.
+    </p>
+
+    <Sample label="Interactive sample — warm vs. cold palette">
+      <div>
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <button
+            id="s4-warm-btn"
+            onclick="s4Switch('warm')"
+            style="font-family: system-ui, sans-serif; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; background: #fdf3e8; border: 0.5px solid #e8c9a0; color: #8b6345; border-radius: 6px; padding: 5px 12px; cursor: pointer; font-weight: 500;"
+          >Paper (warm)</button>
+          <button
+            id="s4-cold-btn"
+            onclick="s4Switch('cold')"
+            style="font-family: system-ui, sans-serif; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; background: #f0f0f0; border: 0.5px solid #ddd; color: #555; border-radius: 6px; padding: 5px 12px; cursor: pointer;"
+          >White (cold)</button>
+        </div>
+
+        <div
+          id="s4-preview"
+          style="
+            border-radius: 8px;
+            padding: 20px 24px;
+            transition: background 480ms cubic-bezier(.4,0,.2,1), border-color 480ms cubic-bezier(.4,0,.2,1);
+            background: #fdf8f2;
+            border: 0.5px solid #e4d9cc;
+          "
+        >
+          <div id="s4-title" style="font-family: 'Lora', Georgia, serif; font-size: 20px; font-weight: 400; margin-bottom: 6px; transition: color 480ms;">
+            How the palette breathes
+          </div>
+          <div id="s4-body" style="font-family: 'Lora', Georgia, serif; font-size: 15px; line-height: 1.8; margin-bottom: 12px; transition: color 480ms;">
+            Body copy on a warm surface. The contrast is intentional — not harsh,
+            not soft enough to be inaccessible. The eye rests naturally here.
+          </div>
+          <div id="s4-meta" style="font-size: 12px; font-family: system-ui, sans-serif; transition: color 480ms;">
+            Metadata · captions · timestamps
+          </div>
+        </div>
+
+        <div id="s4-note" style="margin-top: 10px; font-size: 11px; font-family: system-ui, sans-serif; color: #a08060; letter-spacing: 0.04em; text-transform: uppercase;">
+          Currently: paper — warm by default
+        </div>
+      </div>
+      <script>
+        (function() {
+          const themes = {
+            warm: {
+              bg: '#fdf8f2', border: '#e4d9cc',
+              title: '#2d1f0e', body: '#4a3728', meta: '#a08060',
+              note: 'Currently: paper — warm by default'
+            },
+            cold: {
+              bg: '#ffffff', border: '#e0e0e0',
+              title: '#111111', body: '#333333', meta: '#888888',
+              note: 'Currently: white — cold default'
+            }
+          };
+          function s4Switch(mode) {
+            const t = themes[mode];
+            const preview = document.getElementById('s4-preview');
+            const title   = document.getElementById('s4-title');
+            const body    = document.getElementById('s4-body');
+            const meta    = document.getElementById('s4-meta');
+            const note    = document.getElementById('s4-note');
+            if (!preview) return;
+            preview.style.background   = t.bg;
+            preview.style.borderColor  = t.border;
+            if (title) title.style.color = t.title;
+            if (body)  body.style.color  = t.body;
+            if (meta)  meta.style.color  = t.meta;
+            if (note)  note.textContent  = t.note;
+          }
+          window.s4Switch = s4Switch;
+        })();
+      </script>
+    </Sample>
+
+    <h2>Serif body type reinforces the right mode</h2>
+
+    <p>
+      The typeface choice is part of the same argument. Lora is a
+      reading serif — designed for sustained on-screen reading, with
+      letterforms that stay comfortable across body copy scales. It signals: this is for reading, not
+      scanning. In contrast, sans-serif typefaces have evolved alongside
+      digital UI — they're optimized for labels, buttons, navigation items.
+      Using a sans for body copy imports those associations.
+    </p>
+
+    <Annotation label="Naming matters">
+      Variable names encode intent. <code>--paper-0</code> signals that this
+      is a surface material with texture and history. <code>--background-primary</code>
+      signals that this is a configurable default. These are not the same concept.
+      The name you give a token is a promise about how it should be used.
+    </Annotation>
+
+    <p>
+      When the typeface, color palette, and naming conventions all point in
+      the same direction — warmth, reading, presence — the system becomes
+      self-documenting. A designer new to the codebase doesn't need a style
+      guide to understand why <code>--font-sans</code> goes on labels.
+      The contrast with <code>--font-serif</code> carries the explanation.
+    </p>
+
+  </article>
+</Base>

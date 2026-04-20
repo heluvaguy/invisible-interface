@@ -1,0 +1,123 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import PullQuote from '../../components/PullQuote.astro';
+import Annotation from '../../components/Annotation.astro';
+
+const base = import.meta.env.BASE_URL;
+---
+<Base title="A Note On Precedent" section={7}>
+  <article class="prose">
+
+    <SectionHeader
+      n={7}
+      title="A Note On Precedent"
+      meta="~300 words + closing"
+    />
+
+    <p>
+      Nothing in this document is new. The argument for restraint appears
+      in every serious writing on typography and print design. The argument
+      for warmth appears in every serious writing on reading environments.
+      The argument for behavioral attention appears in every serious writing
+      on human-computer interaction. What's new is the context — applying
+      these ideas to a conversational medium that didn't exist until recently.
+    </p>
+
+    <p>
+      iA Writer got there first, in the sense that Oliver Reichenstein
+      spent a decade arguing, against considerable market pressure, that
+      a writing tool should look like a piece of paper and behave like one. Early Instapaper made the same argument about reading:
+      strip everything except the words. The best of print design — from
+      Jan Tschichold's asymmetric typography to Robert Bringhurst's grid —
+      makes the argument about space and proportion as the fundamental
+      materials of communication.
+    </p>
+
+    <PullQuote>
+      What's new is applying these ideas to a conversational medium.
+      The interface recedes so the conversation can be the product.
+    </PullQuote>
+
+    <p>
+      The conversational medium changes one thing: the reader is also the
+      writer. The same interface that needs to be calm enough to read in
+      needs to be inviting enough to write in. The same column that
+      constrains line length for comprehension needs to feel generous at
+      the input. This is the specific tension that conversational design
+      has to resolve — and that the preceding sections have tried to address,
+      one layer at a time.
+    </p>
+
+    <Annotation label="Standing on shoulders">
+      These interfaces deserve acknowledgment: iA Writer, Instapaper (2009–2013),
+      Readability, Ulysses, Bear, and the long tradition of typographic
+      thinking that underlies them. The ideas here are not original — the
+      application is.
+    </Annotation>
+
+    <!-- Closing -->
+    <div class="closing">
+      <div class="closing-rule"></div>
+      <h2 class="closing-heading">The One Question</h2>
+      <p>
+        Before shipping any UI element, ask: does this help the user think,
+        or does it remind them they're using software?
+      </p>
+      <p>
+        If the answer is the latter — cut it. If you can't cut it, hide it.
+        If you can't hide it, earn its presence through craft so complete
+        that it becomes invisible anyway.
+      </p>
+      <p>
+        The goal isn't an empty screen. The goal is a screen so full of
+        the right thing that there's no room for anything else to compete.
+        Thought is the product. Everything else is infrastructure.
+      </p>
+      <a href={base} class="closing-return">← Return to start</a>
+    </div>
+
+  </article>
+</Base>
+
+<style>
+  .closing {
+    margin-top: var(--sp-16);
+    padding-top: var(--sp-8);
+  }
+
+  .closing-rule {
+    width: 48px;
+    height: 2px;
+    background: var(--terra-300);
+    border-radius: 2px;
+    margin-bottom: var(--sp-6);
+  }
+
+  .closing-heading {
+    font-family: var(--font-serif);
+    font-size: var(--text-h2);
+    font-weight: 400;
+    color: var(--ink-900);
+    margin-bottom: var(--sp-6);
+  }
+
+  .closing :global(p) {
+    margin-bottom: 1.4em;
+  }
+
+  .closing-return {
+    display: inline-block;
+    margin-top: var(--sp-8);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--terra-600);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color var(--dur-fast) var(--ease-soft);
+  }
+
+  .closing-return:hover {
+    color: var(--terra-800);
+  }
+</style>

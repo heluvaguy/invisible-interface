@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import PullQuote from '../../components/PullQuote.astro';
+import Annotation from '../../components/Annotation.astro';
+---
+<Base title="The Problem With Most AI UIs" section={1}>
+  <article class="prose">
+
+    <SectionHeader
+      n={1}
+      title="The Problem With Most AI UIs"
+      meta="~500 words"
+    />
+
+    <p>
+      Open any AI interface built in the last three years and count what
+      you see before you've typed a single word. Model selector. Temperature
+      slider. Persona library. System prompt editor. Conversation history.
+      Export button. Share button. Plugin marketplace. Each one of these
+      controls represents a locally reasonable decision made by a designer
+      doing their job. The aggregate is exhausting.
+    </p>
+
+    <p>
+      The problem isn't that any of these features are wrong. It's that they
+      all compete for the same finite resource: your attention. And attention,
+      unlike compute, doesn't scale. Every visible control is a small tax
+      levied against the thing you actually came to do — think.
+    </p>
+
+    <PullQuote>
+      They optimized for feature visibility over cognitive flow. The interface
+      confused being impressive with being useful.
+    </PullQuote>
+
+    <p>
+      This is the trap of building in public during a period of rapid
+      capability growth. The features are new. The users are curious.
+      Showing the machinery feels like transparency, and transparency feels
+      like honesty. So the temperature slider stays visible, not because users
+      need it, but because hiding it feels like hiding something.
+    </p>
+
+    <p>
+      But consider what a master craftsperson hides. A concert pianist
+      doesn't perform with the piano lid open so the audience can watch
+      the hammers. A typographer doesn't publish their kerning table alongside
+      the book. The work earns its invisibility by being excellent. The same
+      logic applies to software. When an interface draws attention to itself,
+      it's usually because it hasn't yet solved the problem at the level of
+      depth that would allow it to disappear.
+    </p>
+
+    <h2>The model selector problem</h2>
+
+    <p>
+      The model selector is the canonical example. "Which model should I
+      use?" is a question that approximately zero users can answer well
+      without first understanding benchmarks, pricing, context windows,
+      and the specific task they're trying to accomplish. Asking users to choose is not
+      empowerment — it's delegation of a decision that the interface should
+      own.
+    </p>
+
+    <p>
+      Compare this to how we use email. Nobody picks their SMTP server.
+      Nobody chooses their mail routing path. The infrastructure is opaque
+      precisely because its opacity is a feature. You get to think about
+      what to write, not how to send.
+    </p>
+
+    <Annotation label="The counter-argument">
+      Power users exist. They want control. This is real, and ignoring it
+      produces products that experts abandon. The design challenge isn't to
+      remove controls — it's to make them earn their appearance. Controls
+      that are always visible are a design failure. Controls that appear
+      when they're genuinely needed are a design success.
+    </Annotation>
+
+    <p>
+      The sections that follow aren't a manifesto for minimalism as
+      aesthetic. They're an argument for a specific kind of restraint —
+      one that is hard to achieve, requires active effort to maintain, and
+      produces interfaces that feel effortless precisely because they are not.
+    </p>
+
+  </article>
+</Base>

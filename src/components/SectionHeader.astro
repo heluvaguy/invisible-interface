@@ -1,0 +1,50 @@
+---
+interface Props {
+  n: number;
+  title: string;
+  meta?: string;
+}
+const { n, title, meta } = Astro.props;
+const num = String(n).padStart(2, '0');
+---
+<header class="section-header">
+  <div class="section-num" aria-hidden="true">{num}</div>
+  <h1 class="section-title">{title}</h1>
+  {meta && <p class="section-meta">{meta}</p>}
+</header>
+
+<style>
+  .section-header {
+    padding: var(--sp-12) 0 var(--sp-8);
+    border-bottom: var(--border-subtle);
+    margin-bottom: var(--sp-8);
+  }
+
+  .section-num {
+    font-family: var(--font-serif);
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--ink-100);
+    margin-bottom: var(--sp-2);
+    letter-spacing: -0.02em;
+    user-select: none;
+  }
+
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-h1);
+    font-weight: 400;
+    line-height: var(--leading-snug);
+    color: var(--ink-900);
+    margin: 0;
+  }
+
+  .section-meta {
+    margin-top: var(--sp-2);
+    font-family: var(--font-sans);
+    font-size: var(--text-caption);
+    color: var(--ink-300);
+    letter-spacing: 0.02em;
+  }
+</style>
