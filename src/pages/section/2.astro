@@ -15,21 +15,26 @@ import Sample from '../../components/Sample.astro';
     />
 
     <p>
-      When a language model generates text, it doesn't think, then speak.
-      It produces tokens sequentially, one at a time, at a rate determined
-      by the hardware running it. Streaming that output to the user — word
-      by word as it's produced — is technically straightforward. What's
-      interesting is that it's also the right design choice, for reasons
-      that have nothing to do with latency.
+      Language models come in two modes, and both make the same design
+      argument. Standard models produce tokens in a single continuous pass
+      — no separate thinking phase, just output arriving one token at a
+      time. Reasoning models do something closer to what the word implies:
+      they work through a problem first, then speak. In both cases,
+      streaming that process to the user — word by word, thought by thought
+      — is technically straightforward. What's interesting is that it's
+      also the right design choice, for reasons that have nothing to do
+      with latency.
     </p>
 
     <p>
       A response that arrives all at once, fully formed, feels like it was
       retrieved from a database rather than reasoned through. The instant
       appearance of five paragraphs triggers a "this was cached" instinct,
-      even when it wasn't. Streaming text, by contrast, mimics the visible
-      rhythm of thinking-as-writing. You watch ideas arrive. The experience
-      is closer to receiving a letter than reading a Wikipedia page.
+      even when it wasn't. Streaming changes this. And with reasoning
+      models, the argument grows stronger still: watching a model work
+      through a problem in real time — weighing, backtracking, arriving —
+      is the closest computing has come to making thought visible. The
+      experience shifts from retrieving an answer to watching one form.
     </p>
 
     <PullQuote>
@@ -47,14 +52,14 @@ import Sample from '../../components/Sample.astro';
             onclick="s2StartStream()"
             style="font-family: system-ui, sans-serif; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; background: #fdf3e8; border: 0.5px solid #e8c9a0; color: #8b6345; border-radius: 6px; padding: 6px 14px; cursor: pointer; transition: background 120ms;"
           >▶ Play</button>
-          <span id="s2-speed-label" style="font-family: system-ui, sans-serif; font-size: 12px; color: #a08060;">40ms / token</span>
+          <span id="s2-speed-label" style="font-family: system-ui, sans-serif; font-size: 12px; color: #a08060;">~25 tokens/sec</span>
           <input
             id="s2-speed"
             type="range"
             min="10"
             max="120"
-            value="40"
-            oninput="document.getElementById('s2-speed-label').textContent = this.value + 'ms / token'"
+            value="90"
+            oninput="(function(el){ const delay = 130 - parseInt(el.value, 10); document.getElementById('s2-speed-label').textContent = '~' + Math.round(1000/delay) + ' tokens/sec'; })(this)"
             style="accent-color: #c9956a; flex: 1; max-width: 120px;"
           />
         </div>
@@ -71,7 +76,7 @@ import Sample from '../../components/Sample.astro';
             btn.disabled = true;
             btn.textContent = '…';
             let i = 0;
-            const delay = parseInt(speed.value, 10);
+            const delay = 130 - parseInt(speed.value, 10);
             const iv = setInterval(() => {
               out.textContent += text[i];
               i++;

@@ -129,9 +129,16 @@ import Sample from '../../components/Sample.astro';
               const p = document.createElement('p');
               p.textContent = lines[lineIndex];
               p.style.margin = '0';
+              p.style.opacity = '0';
+              p.style.transform = 'translateY(6px)';
+              p.style.transition = 'opacity 360ms cubic-bezier(.4,0,.2,1), transform 360ms cubic-bezier(.4,0,.2,1)';
               content.appendChild(p);
+              requestAnimationFrame(() => requestAnimationFrame(() => {
+                p.style.opacity = '1';
+                p.style.transform = 'translateY(0)';
+              }));
               lineIndex++;
-              if (autoScroll) box.scrollTop = box.scrollHeight;
+              if (autoScroll) box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' });
             }, 700);
           }
           window.s6StartScroll = s6StartScroll;

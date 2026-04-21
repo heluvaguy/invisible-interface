@@ -124,6 +124,80 @@ import Sample from '../../components/Sample.astro';
       when the economics of paper argue against them.
     </Annotation>
 
+    <h2>The numbers behind the comfort</h2>
+
+    <p>
+      Reading comfort isn't subjective. It's the aggregate of several
+      measurable decisions that interact: font size, line height, column
+      width, and paragraph spacing. Change any one without adjusting the
+      others and the whole system degrades. These aren't independent
+      choices — they're a set of interdependent constraints that either
+      hold together or fall apart together.
+    </p>
+
+    <p>
+      Body size at 17px sits one step above the browser default of 16px.
+      That single pixel reduces the effort of resolving letterforms,
+      particularly on high-resolution screens where 16px can start to feel
+      small without quite feeling wrong. Line height at 1.85 is generous
+      by UI standards — most interfaces run 1.4 to 1.5 — and intentionally
+      so. This is a reading tool, not a dashboard. The extra leading creates
+      air between lines that lets the eye return from the end of one line
+      to the beginning of the next without losing its place. That return
+      sweep is happening hundreds of times per reading session. Every
+      pixel of leading is doing work.
+    </p>
+
+    <p>
+      The 640px column at 17px Lora produces roughly 65–70 characters per
+      line. This sits inside the range where lateral eye movement is
+      efficient and line-tracking becomes automatic. Exceed 80 characters
+      and the return sweep grows unreliable — the eye lands a line too
+      high or too low, and the reader loses their place. Drop below 45
+      and the constant line-breaks start to fragment thought before it
+      can complete. Paragraph spacing at 1.4em signals a new idea without
+      carving a gap large enough to feel like a section boundary.
+    </p>
+
+    <p>
+      The reason these values live as tokens — <code>--text-body</code>,
+      <code>--leading-body</code>, <code>--col-prose</code> — rather than
+      hard-coded numbers is that they encode relationships, not just values.
+      The moment font size changes, line height and column width need to
+      be reconsidered. Token names make that dependency visible. A designer
+      reading <code>--leading-body</code> knows this value is coupled to
+      body copy specifically, and that changing it has consequences
+      throughout the reading experience.
+    </p>
+
+    <Sample label="Comparison — compressed vs. comfortable reading conditions">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-family: 'Lora', Georgia, serif;">
+
+        <!-- Compressed -->
+        <div>
+          <div style="font-family: system-ui, sans-serif; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #a08060; margin-bottom: 8px;">Compressed</div>
+          <div style="background: #f7f0e6; border-radius: 6px; border: 0.5px solid #e4d9cc; padding: 14px; font-size: 16px; line-height: 1.4; color: #4a3728;">
+            <p style="margin: 0 0 0.6em;">Most AI interfaces optimized for feature visibility over cognitive flow. They dressed up the machine instead of hiding it.</p>
+            <p style="margin: 0 0 0.6em;">The result is an interface that constantly reminds you it is software — that it exists between you and the thought you were trying to have.</p>
+            <p style="margin: 0;">Contrast this with an interface that disappears.</p>
+          </div>
+          <div style="margin-top: 8px; font-family: system-ui, sans-serif; font-size: 11px; color: #c8ad94;">16px · line-height 1.4 · unconstrained width</div>
+        </div>
+
+        <!-- Comfortable -->
+        <div>
+          <div style="font-family: system-ui, sans-serif; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #8b6345; margin-bottom: 8px; font-weight: 500;">Comfortable ✓</div>
+          <div style="background: #fdf3e8; border-radius: 6px; border: 0.5px solid #e8c9a0; padding: 14px; font-size: 17px; line-height: 1.85; color: #4a3728;">
+            <p style="margin: 0 0 1.4em;">Most AI interfaces optimized for feature visibility over cognitive flow. They dressed up the machine instead of hiding it.</p>
+            <p style="margin: 0 0 1.4em;">The result is an interface that constantly reminds you it is software — that it exists between you and the thought you were trying to have.</p>
+            <p style="margin: 0;">Contrast this with an interface that disappears.</p>
+          </div>
+          <div style="margin-top: 8px; font-family: system-ui, sans-serif; font-size: 11px; color: #8b6345;">17px · line-height 1.85 · 640px column</div>
+        </div>
+
+      </div>
+    </Sample>
+
     <p>
       The hierarchy of presence is, ultimately, an argument about trust.
       When the layout signals that reading is the primary activity — through
